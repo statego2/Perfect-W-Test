@@ -7,6 +7,14 @@
 const BPL_STORAGE_KEY = 'my-perfect-woman.beauty.v1';
 const BPL_TOTAL = BPL.VALUE_QUESTIONS.length + BPL.FACE_IDS.length + BPL.PAIR_QUESTIONS.length;
 let beautyStep = 0;
+// Photo-first presentation: all original BPL-1.0.0 questions and IDs are preserved.
+// Reordering the UI does not change question scoring, assets or session schema.
+const beautySteps = [
+  ...BPL.FACE_IDS.map(id=>({kind:'ratings',id})),
+  ...BPL.PAIR_QUESTIONS.map(q=>({kind:'pairs',id:q.id})),
+  ...BPL.VALUE_QUESTIONS.map(q=>({kind:'values',id:q.id}))
+];
+const beautyAnswerGroup = kind => kind==='ratings'?'faceRatings':kind==='pairs'?'pairAnswers':'valueAnswers';
 const beautyImage = id => BPL_ASSET_IMAGES[id] || '';
 function beautySession(){
   if(!BPL.validSession(state.beautySession)) state.beautySession=BPL.newSession();
@@ -53,19 +61,20 @@ function beautyResultsCard(){
 function beautyView(){
   const session=beautySession(), index=beautyStep;
   const title=sectionPath('Beauty Intelligence');
-  if(index>=BPL_TOTAL)return title+`<div class="hero"><span class="eyebrow">BEAUTY PREFERENCE LAB · BPL-1.0.0</span><h1>Το αισθητικό <em>προφίλ σου.</em></h1><p class="lead">Οι εικόνες είναι σταθερές, η βαθμολόγηση βασίζεται στις δικές σου επιλογές και δεν επηρεάζει τη σημαντικότητα των άλλων κατηγοριών.</p></div>${beautyResultsCard()}${btn('Προβολή ενιαίου προφίλ','results','primary')}${btn('Ξανά από τις ερωτήσεις','beauty-restart','soft')}`;
+  if(index>=BPL_TOTAL)return title+`<div class="hero"><span class="eyebrow">BEAUTY PREFERENCE LAB · BPL-1.0.0</span><h1>Το αισθητικό <em>προφίλ σου.</em></h1><p class="lead">Οι εικόνες είναι σταθερές, η βαθμολόγηση βασίζεται στις δικές σου επιλογές και δεν επηρεάζει τη σημαντικότητα των άλλων κατηγοριών.</p></div>${beautyResultsCard()}${btn('Συνέχεια στις υπόλοιπες 135 ερωτήσεις →','questions-open','primary')}${btn('Προβολή ενιαίου προφίλ','results','secondary')}${btn('Ξανά από τις φωτογραφίες','beauty-restart','soft')}`;
   let question,body,id,selected,kind;
-  if(index<BPL.VALUE_QUESTIONS.length){
-    const q=BPL.VALUE_QUESTIONS[index];
+  const step=beautySteps[index];
+  if(step.kind==='values'){
+    const q=BPL.VALUE_QUESTIONS.find(x=>x.id===step.id);
     kind='values';id=q.id;selected=session.valueAnswers[id];
     question=q.question;
     body=`<div class="bpl-extremes"><span>${esc(q.left)}</span><span>${esc(q.right)}</span></div><div class="importance-box bpl-scale">${[1,2,3,4,5,6,7].map(n=>`<button class="rating-btn ${selected===n?'selected':''}" data-action="beauty-answer" data-kind="values" data-id="${id}" data-value="${n}" aria-label="Αισθητική επιλογή ${n}/7">${n}</button>`).join('')}</div><p class="note">1 = αριστερή κατεύθυνση · 4 = ανάμεσα · 7 = δεξιά κατεύθυνση.</p>`;
-  } else if(index<BPL.VALUE_QUESTIONS.length+BPL.FACE_IDS.length){
-    kind='ratings';id=BPL.FACE_IDS[index-BPL.VALUE_QUESTIONS.length];selected=session.faceRatings[id];
+  } else if(step.kind==='ratings'){
+    kind='ratings';id=step.id;selected=session.faceRatings[id];
     question='Πόσο σου αρέσει αισθητικά αυτό το πρόσωπο;';
     body=`<div class="bpl-one-face"><img src="${beautyImage(id)}" alt="Σταθερό συνθετικό πορτρέτο ${id}"></div><div class="importance-box bpl-scale">${[1,2,3,4,5,6,7].map(n=>`<button class="rating-btn ${selected===n?'selected':''}" data-action="beauty-answer" data-kind="ratings" data-id="${id}" data-value="${n}">${n}</button>`).join('')}</div><p class="note">1 = ελάχιστη προσωπική έλξη · 7 = πολύ μεγάλη προσωπική έλξη. Αυτή δεν είναι αντικειμενική βαθμολόγηση της γυναίκας.</p>`;
   } else {
-    const q=BPL.PAIR_QUESTIONS[index-BPL.VALUE_QUESTIONS.length-BPL.FACE_IDS.length];
+    const q=BPL.PAIR_QUESTIONS.find(x=>x.id===step.id);
     kind='pairs';id=q.id;selected=session.pairAnswers[id];
     question='Ποιο από τα δύο πρόσωπα σε ελκύει περισσότερο;';
     body=`<div class="bpl-pair-images"><button class="bpl-face-choice ${selected==='L'?'selected':''}" data-action="beauty-answer" data-kind="pairs" data-id="${id}" data-value="L"><img src="${beautyImage(q.left)}" alt="Σταθερό πορτρέτο αριστερά"><span>Αριστερά</span></button><button class="bpl-face-choice ${selected==='R'?'selected':''}" data-action="beauty-answer" data-kind="pairs" data-id="${id}" data-value="R"><img src="${beautyImage(q.right)}" alt="Σταθερό πορτρέτο δεξιά"><span>Δεξιά</span></button></div><div class="utility-options">${[['TIE','Και τα δύο εξίσου'],['NONE','Κανένα'],['UNSURE','Δεν μπορώ να επιλέξω']].map(([val,label])=>`<button class="pill-btn ${selected===val?'selected':''}" data-action="beauty-answer" data-kind="pairs" data-id="${id}" data-value="${val}">${label}</button>`).join('')}</div>`;
@@ -75,12 +84,7 @@ function beautyView(){
 function enterBeauty(){
   syncBeautyFromLocal();const s=beautySession();
   beautyStep=0;
-  const steps=[
-    ...BPL.VALUE_QUESTIONS.map(x=>['valueAnswers',x.id]),
-    ...BPL.FACE_IDS.map(x=>['faceRatings',x]),
-    ...BPL.PAIR_QUESTIONS.map(x=>['pairAnswers',x.id])
-  ];
-  const next=steps.findIndex(([group,id])=>!(id in s[group]));
+  const next=beautySteps.findIndex(step=>!(step.id in s[beautyAnswerGroup(step.kind)]));
   beautyStep=next<0?BPL_TOTAL:next;
   goto('beauty');
 }
@@ -97,7 +101,7 @@ function answerBeauty(kind,id,value){
     s.pairAnswers[id]=value;
   }else throw Error('Invalid Beauty answer');
   beautyStep=Math.min(BPL_TOTAL,beautyStep+1);
-  s.phase=beautyStep<BPL.VALUE_QUESTIONS.length?'values':beautyStep<BPL.VALUE_QUESTIONS.length+BPL.FACE_IDS.length?'ratings':beautyStep<BPL_TOTAL?'pairs':'results';
+  s.phase=beautySteps[beautyStep]?.kind ?? 'results';
   s.step=beautyStep;
   saveBeautySession();
   render();
@@ -107,15 +111,10 @@ function answerBeauty(kind,id,value){
 function skipBeauty(){
   if(beautyStep>=BPL_TOTAL){render();return;}
   const s=beautySession(), i=beautyStep;
-  const slot=i<BPL.VALUE_QUESTIONS.length?['valueAnswers',BPL.VALUE_QUESTIONS[i].id]:
-    i<BPL.VALUE_QUESTIONS.length+BPL.FACE_IDS.length?
-    ['faceRatings',BPL.FACE_IDS[i-BPL.VALUE_QUESTIONS.length]]:
-    ['pairAnswers',BPL.PAIR_QUESTIONS[i-BPL.VALUE_QUESTIONS.length-BPL.FACE_IDS.length].id];
-  if(!(slot[1] in s[slot[0]]))s[slot[0]][slot[1]]=null;
+  const step=beautySteps[i], group=beautyAnswerGroup(step.kind);
+  if(!(step.id in s[group]))s[group][step.id]=null;
   beautyStep=Math.min(BPL_TOTAL,i+1);
-  s.phase=beautyStep<BPL.VALUE_QUESTIONS.length?'values':
-          beautyStep<BPL.VALUE_QUESTIONS.length+BPL.FACE_IDS.length?'ratings':
-          beautyStep<BPL_TOTAL?'pairs':'results';
+  s.phase=beautySteps[beautyStep]?.kind ?? 'results';
   s.step=beautyStep;
   saveBeautySession();
   render();
