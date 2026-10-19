@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="el"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>My Perfect Woman · Resume Full Super Test</title><style>body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:24px;background:#101727;color:#f6f2ea;font:16px system-ui}main{max-width:490px}h1{font-size:27px;line-height:1.1}a{color:#e8c69d}p{line-height:1.6}</style></head><body><main><h1>My Perfect Woman · Full Super Test</h1><p id="status">Φόρτωση του πλήρους τεστ με τις ήδη καταχωρισμένες απαντήσεις...</p><p><a href="modules/supertest/index.html">Άνοιγμα πλήρους τεστ</a></p></main><script>
+(function(){
+  'use strict';
+  var URL='modules/supertest/index.html',KEY='mpw-supertest-session-v1';
+  var IDs=['G-VIS','G-CHEM','G-EMO','G-PER','G-INT','G-FAI','G-COM','G-LIF','G-SOC','G-AUT','G-SEX','G-FAM'];
+  var hash=location.hash.match(/^#resume=([A-Z,]+)$/);
+  var vals=hash?hash[1].split(','):null;
+  if(!vals||vals.length!==12||!vals.every(function(v){return ['A','B','SKIP'].includes(v)})){
+    document.querySelector('#status').textContent='Άνοιγμα του ενιαίου πλήρους τεστ.';
+    location.replace(URL);return;
+  }
+  try{
+    var previous=localStorage.getItem(KEY), state;
+    try{state=previous?JSON.parse(previous):null}catch(_){}
+    if(!state||state.schema!=='mpw-supertest/v1') {
+      var now=new Date().toISOString();
+      state={schema:'mpw-supertest/v1',createdAt:now,updatedAt:now,answers:{},importance:{},maxdiff:{},situations:{},visuals:{},reflections:{},dealbreakers:[],snapshots:[],legacyImports:[],extensions:[],extensionAnswers:{},beautySession:null};
+    }
+    var at=new Date().toISOString();
+    IDs.forEach(function(id,i){ if(!state.answers[id])state.answers[id]={choice:vals[i],at:at} });
+    state.updatedAt=at;
+    localStorage.setItem(KEY,JSON.stringify(state));
+  }catch(e){document.querySelector('#status').textContent='Δεν έγινε εισαγωγή απαντήσεων λόγω περιορισμών αποθήκευσης. Μπορείς να ανοίξεις το πλήρες τεστ από τον σύνδεσμο.';return;}
+  location.replace(URL);
+})();
+</script></body></html>
