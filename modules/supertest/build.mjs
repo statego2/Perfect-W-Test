@@ -1,0 +1,13 @@
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+const read=s=>readFileSync(new URL(s,import.meta.url),'utf8');
+const bank=JSON.parse(read('./data/questions.json'));const modules=JSON.parse(read('./data/modules.json'));
+const core=read('./src/core.mjs').replace(/^export /gm,'');
+const app=read('./src/app.mjs');
+const data=`const BANK=${JSON.stringify(bank).replace(/</g,'\\u003c')};\nconst MODULES=${JSON.stringify(modules).replace(/</g,'\\u003c')};\n`;
+const script=(data+core+app).replace(/<\/script/gi,'<\\/script');
+const html=read('./src/template.html').replace('/* CSS_INSERT */',read('./src/style.css')).replace('/* CODE_INSERT */',script);
+if(html.includes('/* CODE_INSERT */')||html.includes('/* CSS_INSERT */'))throw Error('Unfilled template tokens');
+mkdirSync(new URL('./dist/',import.meta.url),{recursive:true});
+writeFileSync(new URL('./dist/index.html',import.meta.url),html);
+writeFileSync(new URL('./index.html',import.meta.url),html);
+console.log(`Built standalone supertest: ${bank.questions.length} questions, ${Math.round(Buffer.byteLength(html)/1024)} KB`);
