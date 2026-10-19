@@ -1,0 +1,555 @@
+{
+  "title": "Beauty Preference Lab — fixed stimulus inventory",
+  "version": "BPL-1.0.0",
+  "bank_id": "beauty-aesthetic-fixed-v1",
+  "test_category": "exploratory personal aesthetic preferences; not validated psychometrics",
+  "language": "el",
+  "phases": [
+    {
+      "id": "values",
+      "question_count": 16,
+      "scale": "1..7, two reversed & separated items per axis"
+    },
+    {
+      "id": "ratings",
+      "question_count": 12,
+      "scale": "1..7 absolute face attractiveness"
+    },
+    {
+      "id": "pairs",
+      "question_count": 27,
+      "scale": "L,R,TIE,NONE,UNSURE",
+      "check_items": 3
+    }
+  ],
+  "axes": [
+    {
+      "id": "presentation",
+      "title": "Φυσικότητα – επιμέλεια",
+      "low": "Ανεπιτήδευτη, φυσική εμφάνιση",
+      "high": "Προσεγμένο, polished αποτέλεσμα",
+      "shortLow": "Φυσικότητα",
+      "shortHigh": "Επιμέλεια",
+      "description": "Πόσο σε ελκύει η οπτικά ανεπιτήδευτη εικόνα σε σχέση με την εμφανώς επιμελημένη."
+    },
+    {
+      "id": "presence",
+      "title": "Διακριτικότητα – ένταση",
+      "low": "Διακριτική οπτική παρουσία",
+      "high": "Εντυπωσιακή, statement παρουσία",
+      "shortLow": "Διακριτικότητα",
+      "shortHigh": "Ένταση",
+      "description": "Η ένταση της πρώτης οπτικής εντύπωσης."
+    },
+    {
+      "id": "softness",
+      "title": "Απαλότητα – δυναμισμός",
+      "low": "Απαλά, γλυκά χαρακτηριστικά",
+      "high": "Έντονα, δυναμικά χαρακτηριστικά",
+      "shortLow": "Απαλότητα",
+      "shortHigh": "Δυναμισμός",
+      "description": "Οπτικό ύφος, όχι χαρακτήρας ή συμπεριφορά."
+    },
+    {
+      "id": "timeless",
+      "title": "Κλασικό – πειραματικό",
+      "low": "Κλασικό, διαχρονικό look",
+      "high": "Μοντέρνο, πειραματικό look",
+      "shortLow": "Κλασικότητα",
+      "shortHigh": "Πειραματισμός",
+      "description": "Προτίμηση ανάμεσα σε οικείες αισθητικές φόρμες και στιλιστικές εκπλήξεις."
+    },
+    {
+      "id": "distinct",
+      "title": "Αρμονία – ιδιαιτερότητα",
+      "low": "Αρμονικό, ισορροπημένο σύνολο",
+      "high": "Ασυνήθιστα, ξεχωριστά στοιχεία",
+      "shortLow": "Αρμονία",
+      "shortHigh": "Ιδιαιτερότητα",
+      "description": "Εδώ μετράμε τι προτιμάς, όχι πόσο όμορφος είναι κάποιος."
+    },
+    {
+      "id": "ornament",
+      "title": "Λιτό – διακοσμημένο",
+      "low": "Λιτή, minimal αισθητική",
+      "high": "Πλούσια στιλιστική λεπτομέρεια",
+      "shortLow": "Λιτότητα",
+      "shortHigh": "Λεπτομέρεια",
+      "description": "Πόσο φορτωμένη αισθητικά εικόνα προτιμάς."
+    },
+    {
+      "id": "expression",
+      "title": "Αυθορμητισμός – συγκράτηση",
+      "low": "Αυθόρμητη, χαμογελαστή έκφραση",
+      "high": "Συγκρατημένο, ήρεμο βλέμμα",
+      "shortLow": "Αυθορμητισμός",
+      "shortHigh": "Συγκράτηση",
+      "description": "Προτίμηση στη φωτογραφική έκφραση, χωρίς συμπέρασμα προσωπικότητας."
+    },
+    {
+      "id": "contrast",
+      "title": "Απαλοί – έντονοι τόνοι",
+      "low": "Απαλοί, ήπιοι χρωματικοί τόνοι",
+      "high": "Υψηλή αντίθεση και έντονοι τόνοι",
+      "shortLow": "Απαλοί τόνοι",
+      "shortHigh": "Έντονοι τόνοι",
+      "description": "Η αισθητική εικόνας/στιλ, όχι η αξία οποιουδήποτε χρώματος δέρματος."
+    }
+  ],
+  "questions": [
+    {
+      "id": "V-01A",
+      "axis": "presentation",
+      "reverse": false,
+      "question": "Ποιο γενικό αισθητικό αποτέλεσμα σε ελκύει περισσότερο;",
+      "left": "Ανεπιτήδευτη, φυσική εμφάνιση",
+      "right": "Προσεγμένο, polished αποτέλεσμα"
+    },
+    {
+      "id": "V-02A",
+      "axis": "presence",
+      "reverse": false,
+      "question": "Ποια από τις δύο κατευθύνσεις ύφους θα επέλεγες συνήθως;",
+      "left": "Διακριτική οπτική παρουσία",
+      "right": "Εντυπωσιακή, statement παρουσία"
+    },
+    {
+      "id": "V-03A",
+      "axis": "softness",
+      "reverse": false,
+      "question": "Ποιο γενικό αισθητικό αποτέλεσμα σε ελκύει περισσότερο;",
+      "left": "Απαλά, γλυκά χαρακτηριστικά",
+      "right": "Έντονα, δυναμικά χαρακτηριστικά"
+    },
+    {
+      "id": "V-04A",
+      "axis": "timeless",
+      "reverse": false,
+      "question": "Ποια από τις δύο κατευθύνσεις ύφους θα επέλεγες συνήθως;",
+      "left": "Κλασικό, διαχρονικό look",
+      "right": "Μοντέρνο, πειραματικό look"
+    },
+    {
+      "id": "V-05A",
+      "axis": "distinct",
+      "reverse": false,
+      "question": "Ποιο γενικό αισθητικό αποτέλεσμα σε ελκύει περισσότερο;",
+      "left": "Αρμονικό, ισορροπημένο σύνολο",
+      "right": "Ασυνήθιστα, ξεχωριστά στοιχεία"
+    },
+    {
+      "id": "V-06A",
+      "axis": "ornament",
+      "reverse": false,
+      "question": "Ποια από τις δύο κατευθύνσεις ύφους θα επέλεγες συνήθως;",
+      "left": "Λιτή, minimal αισθητική",
+      "right": "Πλούσια στιλιστική λεπτομέρεια"
+    },
+    {
+      "id": "V-07A",
+      "axis": "expression",
+      "reverse": false,
+      "question": "Ποιο γενικό αισθητικό αποτέλεσμα σε ελκύει περισσότερο;",
+      "left": "Αυθόρμητη, χαμογελαστή έκφραση",
+      "right": "Συγκρατημένο, ήρεμο βλέμμα"
+    },
+    {
+      "id": "V-08A",
+      "axis": "contrast",
+      "reverse": false,
+      "question": "Ποια από τις δύο κατευθύνσεις ύφους θα επέλεγες συνήθως;",
+      "left": "Απαλοί, ήπιοι χρωματικοί τόνοι",
+      "right": "Υψηλή αντίθεση και έντονοι τόνοι"
+    },
+    {
+      "id": "V-04B",
+      "axis": "timeless",
+      "reverse": true,
+      "question": "Ποια αισθητική κατεύθυνση θα σε προσέλκυε πιο εύκολα;",
+      "left": "Μοντέρνο, πειραματικό look",
+      "right": "Κλασικό, διαχρονικό look"
+    },
+    {
+      "id": "V-01B",
+      "axis": "presentation",
+      "reverse": true,
+      "question": "Αν έπρεπε να διαλέξεις έναν οπτικό προσανατολισμό, ποιος θα σε κέρδιζε;",
+      "left": "Προσεγμένο, polished αποτέλεσμα",
+      "right": "Ανεπιτήδευτη, φυσική εμφάνιση"
+    },
+    {
+      "id": "V-06B",
+      "axis": "ornament",
+      "reverse": true,
+      "question": "Ποια αισθητική κατεύθυνση θα σε προσέλκυε πιο εύκολα;",
+      "left": "Πλούσια στιλιστική λεπτομέρεια",
+      "right": "Λιτή, minimal αισθητική"
+    },
+    {
+      "id": "V-03B",
+      "axis": "softness",
+      "reverse": true,
+      "question": "Αν έπρεπε να διαλέξεις έναν οπτικό προσανατολισμό, ποιος θα σε κέρδιζε;",
+      "left": "Έντονα, δυναμικά χαρακτηριστικά",
+      "right": "Απαλά, γλυκά χαρακτηριστικά"
+    },
+    {
+      "id": "V-08B",
+      "axis": "contrast",
+      "reverse": true,
+      "question": "Ποια αισθητική κατεύθυνση θα σε προσέλκυε πιο εύκολα;",
+      "left": "Υψηλή αντίθεση και έντονοι τόνοι",
+      "right": "Απαλοί, ήπιοι χρωματικοί τόνοι"
+    },
+    {
+      "id": "V-02B",
+      "axis": "presence",
+      "reverse": true,
+      "question": "Ποια αισθητική κατεύθυνση θα σε προσέλκυε πιο εύκολα;",
+      "left": "Εντυπωσιακή, statement παρουσία",
+      "right": "Διακριτική οπτική παρουσία"
+    },
+    {
+      "id": "V-07B",
+      "axis": "expression",
+      "reverse": true,
+      "question": "Αν έπρεπε να διαλέξεις έναν οπτικό προσανατολισμό, ποιος θα σε κέρδιζε;",
+      "left": "Συγκρατημένο, ήρεμο βλέμμα",
+      "right": "Αυθόρμητη, χαμογελαστή έκφραση"
+    },
+    {
+      "id": "V-05B",
+      "axis": "distinct",
+      "reverse": true,
+      "question": "Αν έπρεπε να διαλέξεις έναν οπτικό προσανατολισμό, ποιος θα σε κέρδιζε;",
+      "left": "Ασυνήθιστα, ξεχωριστά στοιχεία",
+      "right": "Αρμονικό, ισορροπημένο σύνολο"
+    }
+  ],
+  "face_manifest": {
+    "version": "static-portraits-1.0",
+    "synthetic": true,
+    "count": 12,
+    "images": [
+      {
+        "id": "F01",
+        "file": "assets/F01.webp",
+        "sha256": "05c53219500cfc1c07fe93d4dc8f450b9f2f5fd58d8a5060291ed20ba57fbb30"
+      },
+      {
+        "id": "F02",
+        "file": "assets/F02.webp",
+        "sha256": "caa258c4509ddaf2b8cdc40b92b3d9ac23bae8c77cf3e5ee9c3b553cbbd8dc5e"
+      },
+      {
+        "id": "F03",
+        "file": "assets/F03.webp",
+        "sha256": "d2ada8870c46f8839247027fd74082dd8fa66daf1ca4e0b0010608106fb897bf"
+      },
+      {
+        "id": "F04",
+        "file": "assets/F04.webp",
+        "sha256": "51a853e86c976d6ce152f199a0a90c93c55b04308e41f13bfded9ec34a361429"
+      },
+      {
+        "id": "F05",
+        "file": "assets/F05.webp",
+        "sha256": "a2ab5f376fc7129f053c050347a6b37cf2c33c2bb41bd0ea390f4daff0275370"
+      },
+      {
+        "id": "F06",
+        "file": "assets/F06.webp",
+        "sha256": "00a1c02c8551730a65f94c9fdb9d0c8cccaea2c836d1c3b908cc9f561ebe5565"
+      },
+      {
+        "id": "F07",
+        "file": "assets/F07.webp",
+        "sha256": "d60654e0e735771cb16a94f91f4fa4dc5af5c004c8330f5e175af980ed9e0df2"
+      },
+      {
+        "id": "F08",
+        "file": "assets/F08.webp",
+        "sha256": "741a533873eed2135ce5c072056f154ea19af4e2daa894981a92135eb4063d1a"
+      },
+      {
+        "id": "F09",
+        "file": "assets/F09.webp",
+        "sha256": "78cbb791aa4068ac00f0d1f5b24e94462a888282af4e2fd77da29648523662c8"
+      },
+      {
+        "id": "F10",
+        "file": "assets/F10.webp",
+        "sha256": "5a7dab01bbc93f7b9093a082b14c02f6a44a3ce617a040696d3ead355ab13ce6"
+      },
+      {
+        "id": "F11",
+        "file": "assets/F11.webp",
+        "sha256": "3b7b4c4c8b40a982c037eff7bbf34097c14125a8ea3523b1ac757984b3beacfb"
+      },
+      {
+        "id": "F12",
+        "file": "assets/F12.webp",
+        "sha256": "3940ec3747a3b2d1733806c629c393adfc9ccedf05ae179e53dd0d1daf8c50d8"
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "id": "P-1-01",
+      "left": "F01",
+      "right": "F02",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-02",
+      "left": "F02",
+      "right": "F03",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-03",
+      "left": "F03",
+      "right": "F04",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-04",
+      "left": "F04",
+      "right": "F05",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-05",
+      "left": "F05",
+      "right": "F06",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-06",
+      "left": "F06",
+      "right": "F07",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-07",
+      "left": "F07",
+      "right": "F08",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-08",
+      "left": "F08",
+      "right": "F09",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-09",
+      "left": "F09",
+      "right": "F10",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-10",
+      "left": "F10",
+      "right": "F11",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-11",
+      "left": "F11",
+      "right": "F12",
+      "kind": "primary"
+    },
+    {
+      "id": "P-1-12",
+      "left": "F12",
+      "right": "F01",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-01",
+      "left": "F04",
+      "right": "F01",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-02",
+      "left": "F05",
+      "right": "F02",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-03",
+      "left": "F06",
+      "right": "F03",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-04",
+      "left": "F07",
+      "right": "F04",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-05",
+      "left": "F08",
+      "right": "F05",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-06",
+      "left": "F09",
+      "right": "F06",
+      "kind": "primary"
+    },
+    {
+      "id": "R-1",
+      "left": "F04",
+      "right": "F03",
+      "kind": "repeat",
+      "repeats": "P-1-03"
+    },
+    {
+      "id": "P-3-07",
+      "left": "F10",
+      "right": "F07",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-08",
+      "left": "F11",
+      "right": "F08",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-09",
+      "left": "F12",
+      "right": "F09",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-10",
+      "left": "F01",
+      "right": "F10",
+      "kind": "primary"
+    },
+    {
+      "id": "R-2",
+      "left": "F10",
+      "right": "F09",
+      "kind": "repeat",
+      "repeats": "P-1-09"
+    },
+    {
+      "id": "P-3-11",
+      "left": "F02",
+      "right": "F11",
+      "kind": "primary"
+    },
+    {
+      "id": "P-3-12",
+      "left": "F03",
+      "right": "F12",
+      "kind": "primary"
+    },
+    {
+      "id": "R-3",
+      "left": "F05",
+      "right": "F08",
+      "kind": "repeat",
+      "repeats": "P-3-05"
+    }
+  ],
+  "style_hypotheses": [
+    {
+      "id": "natural",
+      "name": "Φυσική & ανεπιτήδευτη",
+      "targets": {
+        "presentation": -0.9,
+        "ornament": -0.7,
+        "contrast": -0.4
+      },
+      "about": "Ελκυστική απλότητα, με λίγη εμφανή στιλιστική παρέμβαση."
+    },
+    {
+      "id": "classic",
+      "name": "Κλασική & κομψή",
+      "targets": {
+        "timeless": -0.9,
+        "presentation": 0.6,
+        "ornament": -0.4
+      },
+      "about": "Διαχρονική γραμμή, περιποιημένη και ισορροπημένη εμφάνιση."
+    },
+    {
+      "id": "romantic",
+      "name": "Ρομαντική & απαλή",
+      "targets": {
+        "softness": -0.9,
+        "presence": -0.5,
+        "contrast": -0.6
+      },
+      "about": "Απαλή, διακριτική αισθητική παρουσία."
+    },
+    {
+      "id": "striking",
+      "name": "Έντονη & εντυπωσιακή",
+      "targets": {
+        "presence": 0.9,
+        "softness": 0.7,
+        "contrast": 0.8
+      },
+      "about": "Δυνατή οπτική εντύπωση και έντονες γραμμές."
+    },
+    {
+      "id": "alternative",
+      "name": "Ιδιαίτερη & πειραματική",
+      "targets": {
+        "distinct": 0.9,
+        "timeless": 0.8,
+        "ornament": 0.5
+      },
+      "about": "Ασυνήθιστα στοιχεία και στιλιστικός πειραματισμός."
+    },
+    {
+      "id": "minimal",
+      "name": "Minimal & διακριτική",
+      "targets": {
+        "ornament": -0.9,
+        "presence": -0.4,
+        "timeless": -0.3
+      },
+      "about": "Καθαρές γραμμές με συγκρατημένο αποτέλεσμα."
+    },
+    {
+      "id": "glam",
+      "name": "Polished & glam",
+      "targets": {
+        "presentation": 0.9,
+        "ornament": 0.8,
+        "presence": 0.7
+      },
+      "about": "Επιμελημένη εικόνα με ιδιαίτερη προσοχή στη λεπτομέρεια."
+    },
+    {
+      "id": "expressive",
+      "name": "Αυθόρμητη & φωτεινή",
+      "targets": {
+        "expression": -0.9,
+        "presentation": -0.3,
+        "contrast": -0.4
+      },
+      "about": "Φυσική, ζωντανή έκφραση και χαλαρή εικόνα."
+    }
+  ],
+  "rules": {
+    "images": "immutable assets bundled with app; SHA-256 verified",
+    "paired_score": "regularized Bradley–Terry fitted to 24 primary pairs only",
+    "repeats": "3 mirrored comparisons count only for consistency",
+    "missing": "not scored; no inference from skipped items",
+    "value_axis": "mean of two correctly reverse-coded value self-ratings",
+    "ranking": "withhold if no meaningful contrast, insufficient evidence or side bias",
+    "compatibility": "never infer personality or romantic compatibility from portrait",
+    "original_135_question_bank": "not overwritten; namespace extension VIS:AESTHETIC_LAB"
+  }
+}

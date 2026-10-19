@@ -1,0 +1,67 @@
+{
+  "version": "static-portraits-1.0",
+  "synthetic": true,
+  "count": 12,
+  "images": [
+    {
+      "id": "F01",
+      "file": "assets/F01.webp",
+      "sha256": "05c53219500cfc1c07fe93d4dc8f450b9f2f5fd58d8a5060291ed20ba57fbb30"
+    },
+    {
+      "id": "F02",
+      "file": "assets/F02.webp",
+      "sha256": "caa258c4509ddaf2b8cdc40b92b3d9ac23bae8c77cf3e5ee9c3b553cbbd8dc5e"
+    },
+    {
+      "id": "F03",
+      "file": "assets/F03.webp",
+      "sha256": "d2ada8870c46f8839247027fd74082dd8fa66daf1ca4e0b0010608106fb897bf"
+    },
+    {
+      "id": "F04",
+      "file": "assets/F04.webp",
+      "sha256": "51a853e86c976d6ce152f199a0a90c93c55b04308e41f13bfded9ec34a361429"
+    },
+    {
+      "id": "F05",
+      "file": "assets/F05.webp",
+      "sha256": "a2ab5f376fc7129f053c050347a6b37cf2c33c2bb41bd0ea390f4daff0275370"
+    },
+    {
+      "id": "F06",
+      "file": "assets/F06.webp",
+      "sha256": "00a1c02c8551730a65f94c9fdb9d0c8cccaea2c836d1c3b908cc9f561ebe5565"
+    },
+    {
+      "id": "F07",
+      "file": "assets/F07.webp",
+      "sha256": "d60654e0e735771cb16a94f91f4fa4dc5af5c004c8330f5e175af980ed9e0df2"
+    },
+    {
+      "id": "F08",
+      "file": "assets/F08.webp",
+      "sha256": "741a533873eed2135ce5c072056f154ea19af4e2daa894981a92135eb4063d1a"
+    },
+    {
+      "id": "F09",
+      "file": "assets/F09.webp",
+      "sha256": "78cbb791aa4068ac00f0d1f5b24e94462a888282af4e2fd77da29648523662c8"
+    },
+    {
+      "id": "F10",
+      "file": "assets/F10.webp",
+      "sha256": "5a7dab01bbc93f7b9093a082b14c02f6a44a3ce617a040696d3ead355ab13ce6"
+    },
+    {
+      "id": "F11",
+      "file": "assets/F11.webp",
+      "sha256": "3b7b4c4c8b40a982c037eff7bbf34097c14125a8ea3523b1ac757984b3beacfb"
+    },
+    {
+      "id": "F12",
+      "file": "assets/F12.webp",
+      "sha256": "3940ec3747a3b2d1733806c629c393adfc9ccedf05ae179e53dd0d1daf8c50d8"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12151b">
+  <meta name="description" content="Σταθερό τεστ αισθητικών προτιμήσεων με 12 πορτρέτα, 16 ερωτήσεις αισθητικής και 27 συγκρίσεις.">
+  <title>Beauty Preference Lab — My Perfect Woman</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">✦</span><div><span class="brand-name">MY PERFECT WOMAN</span><span class="brand-sub">BEAUTY PREFERENCE LAB · V1.0</span></div></div>
+      <button id="aboutBtn" class="ghost small" type="button" aria-haspopup="dialog">Πώς λειτουργεί <span aria-hidden="true">↗</span></button>
+    </header>
+    <main id="app" aria-live="polite"></main>
+    <footer class="footer"><span>Ιδιωτικό · offline · σταθερή τράπεζα ερεθισμάτων</span><span>Δεν προβλέπει επιτυχία σχέσης</span></footer>
+  </div>
+  <dialog id="aboutDialog" class="about-dialog">
+    <div class="dialog-inner"><button type="button" id="closeAbout" class="close-dialog" aria-label="Κλείσιμο">×</button>
+      <span class="eyebrow">ΜΕΘΟΔΟΛΟΓΙΑ</span><h2>Πώς λειτουργεί</h2>
+      <p><b>1. Αισθητικές αξίες.</b> Οκτώ διαστάσεις με δύο ανεστραμμένες ερωτήσεις ανά διάσταση. Είναι αρχική αυτοαναφορά, όχι έγκυρο διαγνωστικό εργαλείο.</p>
+      <p><b>2. Ατομικές αξιολογήσεις.</b> Βαθμολογείς 12 σταθερά, συνθετικά πρόσωπα. Αυτό αποτυπώνει επιλογές προσώπων, όχι αιτίες προτίμησης.</p>
+      <p><b>3. Συγκρίσεις.</b> 24 μοναδικά ζευγάρια, ισορροπημένα ώστε κάθε πρόσωπο να εμφανίζεται σε 4 ζευγάρια, και 3 ερωτήσεις επανάληψης (με ανάποδη πλευρά). Υπολογίζεται κανονικοποιημένη κατάταξη Bradley–Terry από τις καθαρές συγκρίσεις, χωρίς πλαστά ποσοστά.</p>
+      <p><b>Σταθερότητα.</b> Οι εικόνες είναι αποθηκευμένες τοπικά: δεν παράγονται νέες. Οι απαντήσεις μένουν μόνο σε αυτόν τον browser και μπορούν να εξαχθούν, να εισαχθούν ή να διαγραφούν.</p>
+      <p><b>Περιορισμοί.</b> Τα πορτρέτα διαφέρουν σε περισσότερα από ένα χαρακτηριστικά. Άρα δεν ισχυριζόμαστε ότι τα ζευγάρια απομονώνουν σχήμα προσώπου, καταγωγή, ηλικία, χαρακτήρα ή άλλα γνωρίσματα. Οι αισθητικοί τύποι βασίζονται μόνο στις δηλωμένες αξίες, όχι σε στερεότυπα φωτογραφιών. Δεν υπάρχουν κλινικές νόρμες.</p>
+      <p class="source-note">Μεθοδολογικές αναφορές: Germine et al. (2015), Current Biology · Kramer et al. (2024), Perception · Rhodes et al. (2007), Perception.</p>
+    </div>
+  </dialog>
+</body>
+</html>
