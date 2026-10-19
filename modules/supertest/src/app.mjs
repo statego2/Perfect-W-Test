@@ -57,7 +57,7 @@ const actionHandlers={
  'beauty-open'(){enterBeauty()},
  'beauty-answer'(e){answerBeauty(e.dataset.kind,e.dataset.id,e.dataset.value)},
  'beauty-prev'(){beautyStep=Math.max(0,beautyStep-1);render()},
- 'beauty-next'(){beautyStep=Math.min(BPL_TOTAL,beautyStep+1);render()},
+ 'beauty-next'(){skipBeauty()},
  'beauty-restart'(){beautyStep=0;goto('beauty')},
  answer(e){const id=e.dataset.id,choice=e.dataset.choice;saveAnswer(state,id,choice,BANK);if(id==='G-VIS')state.visuals['VP-01']=choice;persist();const qs=availableQuestions();if(questionCursor<qs.length-1){questionCursor++;render()}else{toast('Ολοκληρώθηκαν οι ερωτήσεις. Συνεχίζουμε στις προτεραιότητες.');selectModule('importance')}},
  'q-prev'(){questionCursor--;render()},'q-next'(){questionCursor++;if(questionCursor>=availableQuestions().length){selectModule('importance');return}render()},

@@ -1,25 +1,23 @@
-# Unified Super Test · Integration handoff
+# Unified Super Test — implementation handoff
 
-Module path: `modules/supertest/` (standalone HTML entrypoint: `modules/supertest/index.html`).
+## Completed
+- Main Super Test: 135 fixed questions, 12 independent importance ratings, 20 MaxDiff, 12 scenarios, 50 reflections and 15 optional user photo comparison slots.
+- **Beauty Lab integrated** as a native seventh module using 16 self-reported aesthetic values questions, 12 curated synthetic portraits and 27 paired comparisons (including 3 mirrored consistency checks).
+- Original Beauty engine, immutable photo files and their SHA-256 checksums are reused in Super Test's reproducible build, not regenerated.
+- Unified results report shows individual aesthetic ratings, covered value axes, provisional paired ranking when warranted and evidence/consistency signals.
+- Beauty session is stored independently inside Super Test's unified JSON schema, and standalone Beauty Lab same-origin local storage can be imported conservatively. All 135 original answers and domain importance remain unchanged.
 
-## Delivered
-135 stable questions in 12 domains, 12 explicit importance ratings, 20 balanced Best–Worst cards, 12 hypothetical relationship scenarios, 50 optional written reflection prompts, 15 fixed visual-pair slots awaiting legitimate images, local state and export/import, descriptive report, supplementary module extension adapter.
-
-## Verify
+## Source and verification
+`modules/supertest/src/beauty-bridge.mjs` handles UI, persistence, rendering and results.
+`modules/supertest/build.mjs` packages the Beauty source and fixed images into `modules/supertest/index.html`.
 ```sh
-cd modules/supertest
-npm test
-npm run build
-python tests/browser_smoke.py
-python tests/browser_full_flow.py
+node --test modules/beauty/tests/*.test.mjs
+cd modules/supertest && npm test && npm run build
 ```
-The Python tests require Chromium and Playwright. They were executed locally before publication and the Node tests passed 15/15.
+GitHub Actions reported successful combined test/build publication. A physical iPhone/Safari full-flow QA is **not yet confirmed**.
 
-## Integration contract
-* Stable question IDs and module version metadata are authoritative. Do not interpret old numeric quiz exports as new questions.
-* Import/export formats are explicit; unknown source IDs are quarantined, not coerced.
-* User data stays local by default; no personal answers, image uploads or completed user profiles belong in Git.
-* The fixed Beauty Lab portrait stimuli are **not bundled** into this release. The Super Test photo section is user-supplied fixed imagery, and any future linkage to `modules/beauty` must preserve the source module's stimulus IDs and scoring provenance rather than silently recomputing a shared beauty score.
-* Do not call descriptive results a predictive relationship compatibility percentage.
-
-Next step: connect launcher/navigation with Beauty Lab and implement a versioned `beauty-v1` read-only import adapter, only after inspecting that module's schema and tests. No false claim of completed cross-module pairing.
+## Next
+1. Mobile browser QA: full 55-step Beauty assessment, export/import, skip/re-entry, storage.
+2. Accessibility: image alternative text, keyboard focus, contrast, large text.
+3. Calibrate preference measurement rather than claiming scientifically validated percentages.
+4. Continue using branches/PRs and keep handoff files up to date between AI chats.

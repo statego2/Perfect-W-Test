@@ -1,28 +1,27 @@
-# My Perfect Woman — module integration guide
+# Integration guide: Unified Super Test × Beauty Lab
 
-Beauty Preference Lab is an **optional VIS extension**; it is not a replacement for the larger partner preference test. The earlier 135-question source is **not yet stored in this repo**.
+## Current status
+The integration is now implemented, not only proposed. The Super Test includes a seventh section **Beauty Intelligence** (16 self-report value questions, 12 fixed face ratings, 27 portrait comparisons), and a Beauty section in the unified report. The 12 fixed WebP portraits come from the authoritative standalone Beauty Lab dataset, are SHA-256 verified at build time and embedded in the final combined offline HTML.
 
-## API
-```js
-import {newSession,summary} from '../modules/beauty/engine.mjs';
-import {toPartnerProfileExtension} from '../modules/beauty/partner-adapter.mjs';
-const session=newSession();
-const extension=toPartnerProfileExtension(session);
-// Store independently under: partnerProfile.extensions[extension.namespace]
+## Source dependency
+- Super Test source: `modules/supertest/src/{app,core,beauty-bridge}.mjs`.
+- Beauty engine and immutable test bank: `modules/beauty/{data,engine}.mjs`.
+- Beauty photos and checksums: `modules/beauty/assets/`.
+- Integration bundling: `modules/supertest/build.mjs`; generated entry: `modules/supertest/index.html`.
+
+**Do not independently copy/paste/modify the Beauty question data** into Super Test: the build script reads it directly. The original 135-item Super Test bank remains stable, with independent 0–5 importance ratings.
+
+## Storage and export
+`mpw-supertest-session-v1` contains the normal Super Test state, including `beautySession` with the original Beauty `schema:1`, `version:BPL-1.0.0`, `bank:beauty-aesthetic-fixed-v1`, plus value, face rating and paired-choice answers. The Super Test imports this payload through its normal unified JSON import/export. The standalone Beauty Lab also stores `my-perfect-woman.beauty.v1`, which the Super Test can discover **on the same origin**. There is no automatic synchronization between different origins.
+
+Use `modules/beauty/partner-adapter.mjs` if a future engine needs an explicit `VIS:AESTHETIC_LAB` namespaced extension, but do not inject its results as domain-importance values or relationship-compatibility estimates.
+
+## Testing
+```sh
+node --test modules/beauty/tests/*.test.mjs
+cd modules/supertest && npm test && npm run build
 ```
+GitHub Actions automates these checks and keeps the built HTML current. Browser QA (especially iOS Safari, accessibility and persistent storage) still needs separate verification.
 
-Module output identifies `schema:'my-perfect-woman.extension/1'`, `namespace:'VIS:AESTHETIC_LAB'`, `module_version:'BPL-1.0.0'`, and bank ID `beauty-aesthetic-fixed-v1`. It includes:
-- `values`: 8 self-rated aesthetic axes; unknown is null;
-- `portraits`: 12 synthetic IDs with raw optional ratings 1–7;
-- `pair_preference_order`: only when enough primary comparisons without major side bias;
-- `evidence`: coverage and repeat consistency;
-- explicit fields prohibiting importance override and compatibility prediction.
-
-## UI / deployment
-`modules/beauty/index.html` imports `app.mjs` and the stylesheet and uses static assets with relative paths. It can be linked as a route by a parent app. `offline.html` is a fully bundled demonstration. Run `python3 -m http.server 4173` from repository root.
-
-## Data
-Browser `localStorage` key: `my-perfect-woman.beauty.v1`. Explicit JSON import/export is available. Never automatically transmit personal answer data. Keep domain scores, aesthetic observations and actual real-life compatibility separate.
-
-## Validation
-Run `node --test modules/beauty/tests/*.test.mjs` after changes. These test algorithmic invariants, not clinical psychometrics. Before production, run browser accessibility, iPhone/Safari, storage and layout testing. Any alteration of stimuli or the meaning of a question requires a version bump, stable migration and reviewed manifest digest updates.
+## Scientific boundaries
+Fixed synthetic images improve reproducibility, but each picture differs in multiple visual features; the questions are exploratory and not standardized or validated for psychometric inference. Report raw choices and evidence coverage; do not infer character, faith, ethnicity, sexuality or compatibility.

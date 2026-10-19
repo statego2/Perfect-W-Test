@@ -36,8 +36,12 @@ function beautyResultContent(session){
   const top=s.best.filter(x=>x.rating!==null).slice(0,3);
   const axes=s.axes.filter(x=>x.score!==null).map(a=>`<div class="data-row"><span>${esc(a.title)} <small>· ${a.answered}/2 απαντήσεις</small></span><strong>${esc(Math.abs(a.score)<0.15?'Ισορροπημένη προτίμηση':a.score<0?a.shortLow:a.shortHigh)}</strong></div>`).join('');
   const portraits=top.map(f=>`<div class="bpl-result-face"><img alt="Σταθερό συνθετικό πορτρέτο ${esc(f.id)}" src="${beautyImage(f.id)}"><span>${esc(f.id)} · ${f.rating}/7</span></div>`).join('');
+  const rankingEligible=s.baseCompleted>=10&&!s.positionBias&&s.pairContrast>=0.45;
+  const strongest=rankingEligible?s.pairs.slice(0,3):[];
+  const ranked=strongest.map(p=>`<div class="bpl-result-face"><img alt="Σταθερό πορτρέτο ${esc(p.id)}" src="${beautyImage(p.id)}"><span>${esc(p.id)}</span></div>`).join('');
   return `<div class="bpl-summary-meta"><strong>${s.valuesCompleted}/16</strong> αξίες · <strong>${s.ratingsCompleted}/12</strong> πορτρέτα · <strong>${s.baseCompleted}/24</strong> βασικές συγκρίσεις</div>
-   ${top.length?`<div class="bpl-result-faces">${portraits}</div>`:'<p class="note">Δεν έχουν ακόμη βαθμολογηθεί πρόσωπα.</p>'}
+   ${top.length?`<p class="note">Υψηλότερες ατομικές βαθμολογίες:</p><div class="bpl-result-faces">${portraits}</div>`:'<p class="note">Δεν έχουν ακόμη βαθμολογηθεί πρόσωπα.</p>'}
+   ${ranked?`<p class="note">Πρώτες προτιμήσεις από ζευγαρωτές συγκρίσεις (μοντέλο Bradley–Terry):</p><div class="bpl-result-faces">${ranked}</div>`:s.baseCompleted?'<p class="note">Η κατάταξη ζευγαρωτών συγκρίσεων παραμένει αβέβαιη: χρειάζεται μεγαλύτερη κάλυψη ή λιγότερη μεροληψία πλευράς.</p>':''}
    ${axes||'<p class="note">Δεν έχουν ακόμη αξιολογηθεί αισθητικές αξίες.</p>'}
    <p class="note">Κάλυψη αισθητικών αξόνων: ${covered}/8 · Έλεγχοι συνέπειας: ${s.checks.agreements} συμφωνίες σε ${s.checks.comparable} διαθέσιμους επανελέγχους. ${esc(s.evidence)}. Οι φωτογραφίες δεν προβλέπουν χαρακτήρα ή επιτυχία σχέσης.</p>
    <p class="note">Αποτελέσματα αισθητικής έλξης, <strong>όχι</strong> βαθμοί σημαντικότητας της εμφάνισης σε σύγκριση με άλλες αξίες.</p>`;
@@ -94,6 +98,24 @@ function answerBeauty(kind,id,value){
   }else throw Error('Invalid Beauty answer');
   beautyStep=Math.min(BPL_TOTAL,beautyStep+1);
   s.phase=beautyStep<BPL.VALUE_QUESTIONS.length?'values':beautyStep<BPL.VALUE_QUESTIONS.length+BPL.FACE_IDS.length?'ratings':beautyStep<BPL_TOTAL?'pairs':'results';
+  s.step=beautyStep;
+  saveBeautySession();
+  render();
+}
+
+/** Skip the current stimulus without fabricating a negative response; BPL accepts null as skipped. */
+function skipBeauty(){
+  if(beautyStep>=BPL_TOTAL){render();return;}
+  const s=beautySession(), i=beautyStep;
+  const slot=i<BPL.VALUE_QUESTIONS.length?['valueAnswers',BPL.VALUE_QUESTIONS[i].id]:
+    i<BPL.VALUE_QUESTIONS.length+BPL.FACE_IDS.length?
+    ['faceRatings',BPL.FACE_IDS[i-BPL.VALUE_QUESTIONS.length]]:
+    ['pairAnswers',BPL.PAIR_QUESTIONS[i-BPL.VALUE_QUESTIONS.length-BPL.FACE_IDS.length].id];
+  if(!(slot[1] in s[slot[0]]))s[slot[0]][slot[1]]=null;
+  beautyStep=Math.min(BPL_TOTAL,i+1);
+  s.phase=beautyStep<BPL.VALUE_QUESTIONS.length?'values':
+          beautyStep<BPL.VALUE_QUESTIONS.length+BPL.FACE_IDS.length?'ratings':
+          beautyStep<BPL_TOTAL?'pairs':'results';
   s.step=beautyStep;
   saveBeautySession();
   render();

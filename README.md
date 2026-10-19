@@ -1,48 +1,51 @@
 # My Perfect Woman · Shared Project Workspace
 
-**Canonical repository for the project's application modules, questionnaires, specifications, tests, and AI-to-AI handoffs.** The aim is to help the user learn their *own* partner and aesthetic preferences; it does **not** claim to identify a predetermined perfect real person or predict relationship success.
+This is the shared, version-controlled source for the **Super Test** and **Beauty Preference Lab**, so separate AI assistants can work on the same implementation without relying on chat history.
 
-## What is already available
+## Current integrated app
 
-| Module | Status | Entry |
-|---|---|---|
-| Beauty Preference Lab v1 | Working standalone prototype, requires browser QA and psychometric validation | [Run the module](modules/beauty/index.html) |
-| **Unified Super Test** | **Merged and verified**: 135 questions, 12 importance ratings, 20 Best–Worst cards, 12 scenarios, 50 reflection prompts | [Open the Super Test](modules/supertest/index.html) |
-| Cross-module result engine | Super Test includes its own integrated descriptive report; Beauty Lab remains independently versioned, with cross-import not yet connected | [Super Test handoff](docs/SUPERTEST_HANDOFF.md) |
+**[Super Test · combined single-file HTML](modules/supertest/index.html)** · **[Beauty Lab · independent module](modules/beauty/index.html)**
 
-The Beauty module is a **fixed** test with 8 aesthetic self-report axes, 16 value questions, 12 synthetic portrait stimuli, 12 face ratings, 24 balanced face comparisons and 3 mirrored consistency checks. Images are committed in the repository rather than regenerated per test session. See [the module README](modules/beauty/README.md).
+The Super Test now includes **Beauty Intelligence** as a native seventh section, with these unchanged, fixed stimuli and algorithms:
 
-## Run
+- 135 fixed partner-choice questions across 12 domains (plus 12 explicit importance ratings).
+- 20 balanced Best–Worst tasks, 12 relationship scenarios and 50 optional reflection prompts.
+- 15 optional *user-uploaded* visual comparison slots, **kept distinct** from Beauty Lab.
+- Beauty Lab `BPL-1.0.0`: 16 fixed aesthetic self-report items (8 axes), 12 immutable synthetic adult portrait images, 12 independent face ratings, 24 balanced pair comparisons and 3 repeated consistency checks.
+- A unified, descriptive report showing visual preferences and evidence **without overriding partner-domain importance** or making compatibility predictions.
 
-From the repository root, run:
+Every fixed Beauty image is stored at `modules/beauty/assets/F01.webp`–`F12.webp`, integrity-checked against `assets/manifest.json`, and **embedded** into the rebuilt Super Test HTML so that the unified application works offline. Images are not randomly regenerated.
 
-```bash
-python3 -m http.server 4173
-```
+## How to run
 
-Then navigate to `http://localhost:4173/` or `http://localhost:4173/modules/beauty/`.
+- Open `modules/supertest/index.html` directly, or `index.html` at repository root, which redirects there.
+- For reliable browser storage on iPhone/Safari, serve on a stable HTTPS origin; file:// storage can be restricted.
+- `python3 -m http.server 4173` from repo root, then `http://localhost:4173/modules/supertest/`.
 
-Tests (Node.js 18+):
+## Tests and reproducible build
 
-```bash
+```sh
 node --test modules/beauty/tests/*.test.mjs
-cd modules/supertest && npm test && npm run build
+cd modules/supertest
+npm test
+npm run build
 ```
 
-No npm install or API keys required.
+No npm install is required. Node.js 20+ is recommended.
 
-## Essential reading for any next AI developer
+GitHub Actions builds and republishes `modules/supertest/index.html` from the exact source plus the fixed Beauty assets, after tests. The source files remain authoritative; don't manually edit generated HTML.
 
-1. [AGENTS.md](AGENTS.md) — cross-chat implementation contract, handoff, safety, scope.
-2. [docs/INTEGRATION.md](docs/INTEGRATION.md) — how to plug modules together without mutating answers.
-3. [modules/beauty/README.md](modules/beauty/README.md) — tested feature list and methodological limitations.
-4. [modules/beauty/beauty_question_bank_v1.json](modules/beauty/beauty_question_bank_v1.json) — versioned deterministic item bank.
-5. [modules/beauty/assets/manifest.json](modules/beauty/assets/manifest.json) — image IDs and SHA-256 checksums.
+## Architecture and AI handoff
 
-## Source-of-truth rule
+- `AGENTS.md`: rules and handoff for the next AI developer.
+- `docs/INTEGRATION.md`: cross-module data contract.
+- `docs/SUPERTEST_HANDOFF.md`: released Super Test features.
+- `modules/supertest/src/beauty-bridge.mjs`: integrated Beauty UI and local session bridge.
+- `modules/beauty/data.mjs`, `modules/beauty/engine.mjs`: authoritative Beauty bank and scoring.
+- `modules/beauty/assets/manifest.json`: immutable image IDs and SHA-256 digests.
 
-**Commit deliverables and architectural decisions here** instead of relying on ChatGPT memory or another conversation. When working in multiple chats, use a new branch/PR and record changed files, decisions, tests and handoff information in the PR description. Do not imply the repository contains work that hasn't been committed.
+The Super Test stores a **separate versioned `beautySession`** in its unified local session/JSON exports, while also recognizing the standalone Beauty Lab `my-perfect-woman.beauty.v1` local storage on the **same origin**. Different origins or file:// contexts need a user-controlled JSON transfer; there is no cloud synchronization. Original answer records and domain importance are not changed.
 
-## Important limits
+## Scientific and privacy limits
 
-Research-informed exploration, **not validated psychometrics**. Portrait preferences do not prove why an individual face appeals to someone. No inference about personality, ancestry, faith, health or compatibility from images. Personal answer data must remain private by default; never commit actual user sessions, exports, photographs or sensitive profiles.
+This is research-informed preference exploration, **not validated psychometrics**. Photograph choices reveal neither personality nor relationship outcomes; photos vary across multiple dimensions. Missing answers are not negative answers; no invented scientific confidence or compatibility probability. Real respondents' answers, profiles and personally identifying images must never be committed.

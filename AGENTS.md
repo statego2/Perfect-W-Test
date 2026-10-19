@@ -1,36 +1,34 @@
 # AI developer handoff — My Perfect Woman
 
-This repository is the durable **shared source of truth** between AI conversations. Read `README.md`, `docs/INTEGRATION.md`, `modules/beauty/README.md` and this file before editing. Commit reproducible code and explicit test results; never rely on a different chat containing necessary files.
+**Repository is the shared source of truth across conversations.** Read README.md, docs/INTEGRATION.md and the module README files. Before editing, inspect main branch and recent commits because multiple AI developers may be operating concurrently.
 
-## Purpose
-Build a Greek-first browser application for adults to explore romantic-partner preferences. Maintain a distinction between self-reported values, observed choices, priorities, appearance, chemistry and actual relationship compatibility. This is exploratory, not a clinical instrument or proven matchmaking predictor.
+## Delivered and published source
+- `modules/supertest/index.html`: unified, generated, single-file offline Super Test, with the original 135-item v2 questionnaire plus additional tests.
+- `modules/supertest/src/beauty-bridge.mjs`: seventh section **Beauty Intelligence**, shared with the standalone `modules/beauty/` source.
+- `modules/beauty/data.mjs` and `engine.mjs` define the fixed bank and scoring (16 values items, 12 portraits, 27 comparisons, version `BPL-1.0.0`).
+- `modules/beauty/assets/manifest.json`: fixed `F01`–`F12` WebP, with SHA-256 checks.
+- `modules/supertest/build.mjs` embeds verified Beauty assets and original scoring inside a single, offline-capable Super Test HTML.
+- `modules/supertest/src/core.mjs` preserves the namespaced raw `beautySession` during normal unified JSON exports and imports.
 
-## Current inventory
-- Beauty Preference Lab `BPL-1.0.0` is a standalone module at `modules/beauty/index.html`.
-- `modules/beauty/offline.html` includes all scripts, styles and fixed synthetic adult portraits.
-- `modules/beauty/data.mjs` contains 16 bipolar questions, 12 portrait IDs and 27 comparisons.
-- `modules/beauty/engine.mjs` exports scoring, profile, evidence checks and versioned import/export.
-- `modules/beauty/assets/` contains 12 versioned images with SHA-256 digests.
-- `modules/beauty/partner-adapter.mjs` is a non-destructive `VIS:AESTHETIC_LAB` integration shim.
-- The previously designed **135-question partner bank is not yet included**. Request its source before integrating it; don't invent its complete content.
+## Non-negotiable invariants
+1. Never regenerate images per test run or silently reassign fixed image IDs or question IDs.
+2. Keep Beauty attractiveness/evaluations and partner-domain importance separate. No inference of personality, sexual orientation, ethnicity, faith, health or real-life compatibility from photos.
+3. Unknown, ambivalent, skipped and rejected answers are different. No fake psychometric percentages or confidence.
+4. Preserve user responses and legacy imports. **Do not overwrite** the 135 questions or their importance ratings from Beauty results.
+5. Keep the 15 optional photo upload slots separate from the 12 fixed Beauty portraits.
+6. Do not commit real user sessions, profile exports, private uploads or credentials.
+7. Do not edit generated `modules/supertest/index.html` directly. Edit source, test, and run `npm run build`; GitHub Actions maintains the generated HTML.
+8. Add tests and record decisions and limitations in commits/PRs. Avoid parallel changes to the same source file on main.
 
-## Non-negotiable technical rules
-1. Keep stable IDs and fixed stimulus images; never generate replacements per assessment session.
-2. Keep aesthetic preferences distinct from partner-values priorities. Do not automatically rank appearance as the most important domain.
-3. Keep missing, ambivalent, conflicting and negative responses distinct.
-4. Never infer character, ethnicity, religion, health, sexuality or real-world compatibility from photographs.
-5. Do not invent percentages, psychometric validity or scientific certainty; document calibration limits.
-6. Prefer independent modules, versioned schemas, pure testable engines and explicit integration boundaries.
-7. **Never commit real answers, user profiles, exported session JSON, private photos or credentials.** Local browser storage by default.
-8. Prefer PRs for concurrent AI edits; include tests, changed files, limitations and handoff in each PR.
-
-## Run
-From repo root:
+## Running and checking
 ```sh
-python3 -m http.server 4173
 node --test modules/beauty/tests/*.test.mjs
+cd modules/supertest && npm test && npm run build
 ```
-Open `http://localhost:4173/modules/beauty/`. For offline mode open `modules/beauty/offline.html` locally.
+The merged Beauty user flow and standalone local-storage synchronization are implemented, but **manual iPhone/Safari browser QA** remains important. GitHub Actions build success confirms source/build/tests, not psychometric validity or real-device behavior.
 
-## Next tasks
-Run manual Chrome/Safari/iPhone QA; import the exact separate 135-bank when available; build a parent router and unified profile screen; extend empirical calibration with pilot testing. If an AI session ends, commit a handoff note or PR description with next steps.
+## Follow-ups
+- Check keyboard/screen-reader and mobile interactions in a real browser.
+- Validate import/export round trips and storage persistence on mobile web HTTPS (file:// is less reliable).
+- Check all 55 BPL interactions and evidence gates; improve visual preference reliability through pilot research.
+- Keep questionnaire versions, evidence provenance and cross-domain synthesis explicit.
