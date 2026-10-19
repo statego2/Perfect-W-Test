@@ -21,6 +21,7 @@
     IDs.forEach(function(id,i){ if(!state.answers[id])state.answers[id]={choice:vals[i],at:at} });
     state.updatedAt=at;
     localStorage.setItem(KEY,JSON.stringify(state));
+    try{sessionStorage.setItem('mpw-supertest-photo-first-v1','1')}catch(_){}
   }catch(e){document.querySelector('#status').textContent='Δεν έγινε εισαγωγή απαντήσεων λόγω περιορισμών αποθήκευσης. Μπορείς να ανοίξεις το πλήρες τεστ από τον σύνδεσμο.';return;}
   location.replace(URL);
 })();
