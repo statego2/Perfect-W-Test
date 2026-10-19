@@ -3,7 +3,7 @@ export const CHOICES=new Set(['A','B','BOTH','NEITHER','UNSURE','SKIP']);
 export const VISUAL_COUNT=15;
 const safeObject=x=>!!x&&typeof x==='object'&&!Array.isArray(x);
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
-export function createState(){return {schema:SCHEMA,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),answers:{},importance:{},maxdiff:{},situations:{},visuals:{},reflections:{},dealbreakers:[],snapshots:[],legacyImports:[],extensions:[],extensionAnswers:{}};}
+export function createState(){return {schema:SCHEMA,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),answers:{},importance:{},maxdiff:{},situations:{},visuals:{},reflections:{},dealbreakers:[],snapshots:[],legacyImports:[],extensions:[],extensionAnswers:{},beautySession:null};}
 export function indexBank(bank,modules){
  if(bank?.questions?.length!==135||bank?.domains?.length!==12)throw Error('Expected original 135-question v2 bank and 12 domains');
  const questions=new Map(),domainSet=new Set(bank.domains.map(d=>d.code));
@@ -30,6 +30,8 @@ export function sanitizeState(raw,bank,modules){
  if(Array.isArray(raw.dealbreakers))st.dealbreakers=raw.dealbreakers.filter(x=>typeof x==='string').slice(0,30).map(x=>x.slice(0,300));
  if(Array.isArray(raw.snapshots))st.snapshots=raw.snapshots.filter(s=>safeObject(s)&&safeObject(s.answers)&&typeof s.at==='string').slice(-15).map(s=>({at:s.at,answers:Object.fromEntries(Object.entries(s.answers).filter(([k,v])=>indexes.questions.has(k)&&CHOICES.has(v)))}));
  if(Array.isArray(raw.legacyImports))st.legacyImports=raw.legacyImports.filter(x=>safeObject(x)&&typeof x.importedAt==='string').slice(-5).map(x=>({importedAt:x.importedAt,source:x.source==='unknown-legacy'?'unknown-legacy':'unmapped',payload:x.payload,notice:'Not mapped onto v2 answers.'}));
+ // Preserve raw, versioned BPL session for the independent fixed-image engine.
+ if(safeObject(raw.beautySession)&&raw.beautySession.schema===1&&raw.beautySession.version==='BPL-1.0.0'&&raw.beautySession.bank==='beauty-aesthetic-fixed-v1'&&['values','ratings','pairs','results'].includes(raw.beautySession.phase)&&Number.isInteger(raw.beautySession.step)&&raw.beautySession.step>=0&&raw.beautySession.step<=1000&&['valueAnswers','faceRatings','pairAnswers'].every(k=>safeObject(raw.beautySession[k])&&Object.keys(raw.beautySession[k]).length<=32))st.beautySession=JSON.parse(JSON.stringify(raw.beautySession));
  if(Array.isArray(raw.extensions))for(const item of raw.extensions.slice(0,30)){try{const module=validateExtension(item);if(!st.extensions.some(x=>x.id===module.id))st.extensions.push(module)}catch{ /* malformed imports are ignored */ }}
  if(safeObject(raw.extensionAnswers))for(const item of st.extensions){const entries=raw.extensionAnswers[item.id];if(!safeObject(entries))continue;st.extensionAnswers[item.id]={};for(const q of item.questions)if(q.options.some(o=>o.id===entries[q.id]))st.extensionAnswers[item.id][q.id]=entries[q.id];}
  return st;
