@@ -1,0 +1,22 @@
+name: Beauty Preference Lab tests
+on:
+  push:
+    paths:
+      - "modules/beauty/**"
+      - ".github/workflows/beauty-lab.yml"
+  pull_request:
+    paths:
+      - "modules/beauty/**"
+      - ".github/workflows/beauty-lab.yml"
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify fixed bank, SHA hashes, scoring, integration and UI flow
+        run: node --test modules/beauty/tests/*.test.mjs
