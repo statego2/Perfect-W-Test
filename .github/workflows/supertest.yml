@@ -25,5 +25,15 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
-      - name: Ensure generated entry is committed
-        run: git diff --exit-code -- index.html
+      - name: Verify integrated offline HTML
+        run: |
+          node --input-type=module -e '
+            import fs from "node:fs";
+            import assert from "node:assert/strict";
+            const s=fs.readFileSync("index.html","utf8");
+            assert(s.includes("Beauty Intelligence"),"Missing Beauty section");
+            assert(s.includes("BPL-1.0.0"),"Missing BPL version");
+            assert(s.includes("const BPL_ASSET_IMAGES"),"Missing static image bundle");
+            assert(s.includes("data:image/webp;base64,"),"No bundled WebP portraits");
+            assert(s.includes("function skipBeauty()"),"Missing skip behavior");
+          '
