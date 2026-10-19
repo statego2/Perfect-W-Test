@@ -7,8 +7,8 @@
 | Module | Status | Entry |
 |---|---|---|
 | Beauty Preference Lab v1 | Working standalone prototype, requires browser QA and psychometric validation | [Run the module](modules/beauty/index.html) |
-| 135-question partner test | **Not incorporated in this repository yet**; separate, previously designed bank | Handoff instructions below |
-| Unified result engine / full app | Not yet integrated | Planned |
+| **Unified Super Test** | **Merged and verified**: 135 questions, 12 importance ratings, 20 Best–Worst cards, 12 scenarios, 50 reflection prompts | [Open the Super Test](modules/supertest/index.html) |
+| Cross-module result engine | Super Test includes its own integrated descriptive report; Beauty Lab remains independently versioned, with cross-import not yet connected | [Super Test handoff](docs/SUPERTEST_HANDOFF.md) |
 
 The Beauty module is a **fixed** test with 8 aesthetic self-report axes, 16 value questions, 12 synthetic portrait stimuli, 12 face ratings, 24 balanced face comparisons and 3 mirrored consistency checks. Images are committed in the repository rather than regenerated per test session. See [the module README](modules/beauty/README.md).
 
@@ -26,6 +26,7 @@ Tests (Node.js 18+):
 
 ```bash
 node --test modules/beauty/tests/*.test.mjs
+cd modules/supertest && npm test && npm run build
 ```
 
 No npm install or API keys required.
