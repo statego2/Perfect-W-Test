@@ -1,0 +1,35 @@
+name: Publish rebuilt Super Test HTML
+on:
+  push:
+    paths:
+      - ".github/workflows/publish-supertest-once.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test engine
+        run: |
+          node --test modules/beauty/tests/*.test.mjs
+          (cd modules/supertest && npm test)
+      - name: Build fixed-asset offline website
+        run: |
+          cd modules/supertest
+          npm run build
+      - name: Commit reproducible generated entry
+        run: |
+          git add modules/supertest/index.html
+          if git diff --cached --quiet; then
+            echo "Generated entry already up to date"
+          else
+            git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Build unified Super Test with fixed Beauty Lab portraits"
+            git push origin HEAD:main
+          fi
