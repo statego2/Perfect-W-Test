@@ -1,0 +1,43 @@
+name: Build and publish unified Super Test
+on:
+  push:
+    branches: [main]
+    paths:
+      - "modules/supertest/src/**"
+      - "modules/supertest/build.mjs"
+      - "modules/beauty/**"
+      - ".github/workflows/publish-supertest.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  rebuild:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test supertest logic
+        working-directory: modules/supertest
+        run: npm test
+      - name: Test Beauty Lab logic
+        run: node --test modules/beauty/tests/*.test.mjs
+      - name: Build combined app with verified fixed assets
+        working-directory: modules/supertest
+        run: npm run build
+      - name: Commit generated standalone HTML when changed
+        shell: bash
+        run: |
+          if ! git diff --quiet -- modules/supertest/index.html; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add modules/supertest/index.html
+            git commit -m "build: publish unified Super Test with fixed Beauty Lab"
+            git push origin HEAD:main
+          else
+            echo "Generated Super Test is already current."
+          fi
