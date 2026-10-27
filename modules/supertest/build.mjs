@@ -4,6 +4,15 @@ const read=s=>readFileSync(new URL(s,import.meta.url),'utf8');
 const bank=JSON.parse(read('./data/questions.json'));const modules=JSON.parse(read('./data/modules.json'));
 const core=read('./src/core.mjs').replace(/^export /gm,'');
 const app=read('./src/app.mjs');
+const itemMap=JSON.parse(read('./data/item_map.json'));
+const stripModule=src=>src.replace(/^import .*?;\s*$/gm,'').replace(/^export /gm,'');
+const engineSrc=read('./src/engine.mjs');
+const {validateItemMap}=await import(new URL('./src/engine.mjs',import.meta.url));
+const mapProblems=validateItemMap(itemMap,bank,modules);
+if(mapProblems.length)throw Error('item_map.json invalid:\n'+mapProblems.join('\n'));
+const profileSource='const ITEM_MAP='+JSON.stringify(itemMap).replace(/</g,'\\u003c')+';\n'
+ +'const ProfileEngine=(()=>{\n'+stripModule(engineSrc)+'\nreturn {ENGINE_VERSION,buildProfile,validateItemMap};\n})();\n'
+ +'const ProfileView=(()=>{\n'+stripModule(read('./src/profile-view.mjs'))+'\nreturn {renderProfileSection};\n})();\n';
 const data=`const BANK=${JSON.stringify(bank).replace(/</g,'\\u003c')};\nconst MODULES=${JSON.stringify(modules).replace(/</g,'\\u003c')};\n`;
 const bplData=read('../beauty/data.mjs').replace(/^export /gm,'');
 const bplEngine=read('../beauty/engine.mjs').replace(/^import .*?;\s*$/gm,'').replace(/^export /gm,'');
@@ -20,7 +29,7 @@ for(const asset of faceManifest.images){
 }
 const faceData='const BPL_ASSET_IMAGES='+JSON.stringify(imgs)+';\n';
 const bridge=read('./src/beauty-bridge.mjs');
-const script=(data+core+bplSource+faceData+bridge+app).replace(/<\/script/gi,'<\\/script');
+const script=(data+core+bplSource+faceData+profileSource+bridge+app).replace(/<\/script/gi,'<\\/script');
 const html=read('./src/template.html').replace('/* CSS_INSERT */',read('./src/style.css')).replace('/* CODE_INSERT */',script);
 if(html.includes('/* CODE_INSERT */')||html.includes('/* CSS_INSERT */'))throw Error('Unfilled template tokens');
 mkdirSync(new URL('./dist/',import.meta.url),{recursive:true});
