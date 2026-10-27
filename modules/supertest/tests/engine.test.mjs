@@ -185,3 +185,11 @@ test('every contradiction and facet conclusion carries evidence', () => {
   assert.deepEqual(buildProfile(st(answers, imp, md), map, bank, modules), p, 'deterministic');
   assert.ok(p.features.length > 0 && p.features.every(f => typeof f.text === 'string'));
 });
+
+test('neutral strength counts neutral sources; shared-domain importance is visible in evidence', () => {
+  const md = {}; for (const c of modules.maxdiff.filter(c => c.facets.includes('aut')).slice(0, 2)) md[c.id] = { best: c.facets.find(f => f !== 'aut'), worst: c.facets.find(f => f !== 'aut' && f !== c.facets.find(g => g !== 'aut')) };
+  const t = Object.fromEntries(facetTiers(st({}, { AUT: 3 }, md), map, bank, modules).map(f => [f.id, f]));
+  assert.equal(t.aut.tier, 'neutral');
+  assert.equal(t.aut.strength, 'convergent');
+  assert.ok(t.growth.evidenceIds.includes('IMP:AUT')); // growth shares the AUT domain rating
+});

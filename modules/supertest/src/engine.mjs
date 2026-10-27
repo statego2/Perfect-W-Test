@@ -156,7 +156,9 @@ export function facetTiers(st, map, bank, modules, dilemmas = dilemmaSummary(st,
     else if (plus) tier = 'essential';
     else if (minus) tier = 'secondary';
     else tier = 'neutral';
-    const strength = !signals.length ? null : plus && minus ? 'conflicting' : Math.max(plus, minus) >= 2 ? 'convergent' : 'single-source';
+    // strength = how many sources back the tier (for neutral: how many sources are neutral)
+    const backing = tier === 'neutral' ? signals.length : Math.max(plus, minus);
+    const strength = !signals.length ? null : plus && minus ? 'conflicting' : backing >= 2 ? 'convergent' : 'single-source';
     return { id: f.id, label: f.label, domain: f.domain, ism: ismOf.get(f.id) || null, tier, strength, score: plus - minus,
       signals, evidenceIds: [...new Set(signals.flatMap(s => s.evidence))], maxdiffSeen: m.seen, dilemmaDecided: d?.decided || 0 };
   });
@@ -259,6 +261,7 @@ export function buildProfile(st, map, bank, modules) {
     version: ENGINE_VERSION, mapStatus: map.status || null,
     empty: total === 0 && !Object.keys(st?.importance || {}).length && !Object.keys(st?.maxdiff || {}).length,
     counts, answered: total, totalQuestions: bank.questions.length,
+    answersById: Object.fromEntries(bank.questions.filter(q => choiceOf(st, q.id)).map(q => [q.id, choiceOf(st, q.id)])),
     facets, axes, dilemmas: dilemmas.rows, features: featurePicks(st, map, bank),
     contradictions: contradictions(st, map, bank, modules, ctx),
     unexplored: unexplored(st, map, bank, modules, ctx),
