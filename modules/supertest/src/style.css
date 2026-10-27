@@ -20,3 +20,16 @@
 .bpl-result-face img{width:100%;height:120px;object-fit:cover;object-position:top;border-radius:12px}
 .bpl-card{margin:22px 0 30px}
 @media(max-width:440px){.bpl-pair-images{gap:8px}.bpl-face-choice{padding:5px}.bpl-one-face img{height:300px}.bpl-scale .rating-btn{padding:10px 0}.bpl-result-face{width:82px}.bpl-result-face img{height:98px}}
+/* Phase 1 — Προφίλ ιδανικής συντρόφου */
+.pf{margin-bottom:22px}
+.pf-section{border-top:1px solid #ffffff18;padding-top:14px;margin-top:14px}
+.pf-h{font-family:Georgia,serif;font-weight:400;font-size:19px;margin:0 0 10px}
+.pf-block h4{font-size:13px;font-weight:600;margin:12px 0 4px;color:var(--text)}
+.pf-block h4 small{font-weight:400}
+.pf-row{padding:9px 0;border-bottom:1px solid #ffffff10;font-size:13px;line-height:1.55}
+.pf-row:last-child{border-bottom:0}
+.pf-why{margin-top:3px;color:var(--muted);font-size:12px}
+.pf-ev{display:inline}
+.pf-id{display:inline-block;font-size:10.5px;padding:1px 5px;margin:2px 1px;border-radius:6px;background:#ffffff0d;border:1px solid #ffffff1c;color:#cfc6dc;cursor:help;white-space:nowrap}
+.pf-counts{margin-top:-6px}
+.pf-foot{font-size:11px;margin-top:14px}
